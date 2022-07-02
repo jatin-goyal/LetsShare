@@ -1,17 +1,38 @@
 import React from "react";
-import GoogleLogin from "react-google-login";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import ShareVideo from "../assets/share.mp4";
 import Logo from "../assets/logowhite.png";
+import { auth, provider } from "../firebase";
+import { signInWithPopup } from "firebase/auth";
+import { client } from "../client";
 
 const Login = () => {
-  const responseGoogle = (response) => {
-    try {
-      console.log(response);
-    } catch (err) {
-      console.log(err.message);
-    }
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    await signInWithPopup(auth, provider)
+      .then((user) => {
+        localStorage.setItem(
+          "user",
+          JSON.stringify(auth.currentUser.providerData[0])
+        );
+
+        const { uid, displayName, photoURL } = auth.currentUser.providerData[0];
+        const doc = {
+          _id: uid,
+          _type: "user",
+          username: displayName,
+          image: photoURL,
+        };
+
+        client.createIfNotExists(doc).then(() => {
+          navigate("/", { replace: true });
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
   return (
@@ -32,22 +53,13 @@ const Login = () => {
             <img src={Logo} width="130px" alt="ShareMe" />
           </div>
           <div className="shadow-2xl">
-            <GoogleLogin
-              clientId={process.env.REACT_APP_GOOGLE_API_TOKEN}
-              render={(renderProps) => (
-                <button
-                  className="bg-mainColor flex justify-center items-center p-3 rounded-lg cursor-pointer"
-                  type="button"
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}
-                >
-                  <FcGoogle className="mr-4" /> Sign in with Google
-                </button>
-              )}
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              cookiePolicy="single_host_origin"
-            />
+            <button
+              className="bg-mainColor flex justify-center items-center p-3 rounded-lg cursor-pointer"
+              type="button"
+              onClick={handleLogin}
+            >
+              <FcGoogle className="mr-4" /> Sign in with Google
+            </button>
           </div>
         </div>
       </div>
