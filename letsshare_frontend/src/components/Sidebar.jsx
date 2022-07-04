@@ -87,7 +87,7 @@ const Sidebar = ({ user, setToggleSidebar }) => {
       {user && (
         <Link
           to={`user-profile/${user._id}`}
-          className="flex my-5 mb-3 gap-2 p-2 items-center bg-white rounded-lg shadow-lg mx-3"
+          className="flex my-5 mb-3 gap-2 p-2 items-center bg-white rounded-lg shadow-lg mx-3 capitalize"
           onClick={handleCloseSidebar}
         >
           <p>{user.username}</p>

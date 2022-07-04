@@ -143,7 +143,10 @@ const CreatePin = ({ user }) => {
           />
           {user && (
             <div className="flex gap-2 mt-2 mb-2 items-center bg-white rounded-lg ">
-              <p className="nameInitial-p p-1" style={{ fontSize: "14px" }}>
+              <p
+                className="nameInitial-p p-1 capitalize"
+                style={{ fontSize: "14px" }}
+              >
                 {user.username[0]}
               </p>
               <p className="font-semibold capitalize text-gray-600">
@@ -162,7 +165,7 @@ const CreatePin = ({ user }) => {
             type="url"
             vlaue={destination}
             onChange={(e) => setDestination(e.target.value)}
-            placeholder="Add a destination/web link"
+            placeholder="Add a destination/web link (Optional)"
             className="outline-none text-base sm:text-lg border-b-2 border-gray-200 p-2"
           />
           <div className="flex flex-col">

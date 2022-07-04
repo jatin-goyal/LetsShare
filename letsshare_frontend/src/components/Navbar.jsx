@@ -27,7 +27,9 @@ const Navbar = ({ searchTerm, setSearchTerm, user }) => {
           <IoMdAdd />
         </Link>
         <Link to={`user-profile/${user?._id}`} className="hidden md:block">
-          <h6 className="nameInitial md:w-12 md:h-12">{user?.username[0]}</h6>
+          <h6 className="nameInitial md:w-12 md:h-12 capitalize">
+            {user?.username[0]}
+          </h6>
         </Link>
       </div>
     </div>
