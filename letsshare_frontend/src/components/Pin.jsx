@@ -128,7 +128,9 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
                   className="bg-white flex items-center gap-2 text-black font-bold p-2 pl-4 pr-4 rounded-full opacity-70 hover:opacity-100 hover:shadow-md h-8"
                 >
                   <BsArrowUpRightCircleFill />
-                  {destination?.slice(8, 17)}...
+                  {destination?.length > 17
+                    ? destination?.slice(8, 18) + "..."
+                    : destination}
                 </a>
               ) : (
                 <a
