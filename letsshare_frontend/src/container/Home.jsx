@@ -71,9 +71,3 @@ const Home = () => {
 };
 
 export default Home;
-
-{
-  /* <Link to={`user-profile/${user?._id}`}>
-          <span className="nameInitial">{user?.username}</span>
-        </Link> */
-}

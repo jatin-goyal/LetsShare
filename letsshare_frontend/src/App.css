@@ -11,3 +11,17 @@
   text-align: center;
   align-items: center;
 }
+
+.nameInitial-p {
+  font-size: small;
+  border: 1px solid #eee;
+  padding: 5px 10px;
+  color: rgb(180, 17, 17);
+  background-color: rgb(250, 248, 221);
+  /* margin: 5px 5px; */
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 800;
+  text-align: center;
+  align-items: center;
+}

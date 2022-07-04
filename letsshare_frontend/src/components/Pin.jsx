@@ -15,6 +15,8 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
 
   const navigate = useNavigate();
 
+  // console.log(image);
+
   let user;
   let alreadySaved;
   let saved;
@@ -118,15 +120,25 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
               )}
             </div>
             <div className="flex justify-between items-center w-full gap-2">
-              {destination && (
+              {!!destination ? (
                 <a
                   href={destination}
                   target="_blank"
                   rel="norefferer"
-                  className="bg-white flex items-center gap-2 text-black font-bold p-2 pl-4 pr-4 rounded-full opacity-70 hover:opacity-100 hover:shadow-md h-10"
+                  className="bg-white flex items-center gap-2 text-black font-bold p-2 pl-4 pr-4 rounded-full opacity-70 hover:opacity-100 hover:shadow-md h-8"
                 >
                   <BsArrowUpRightCircleFill />
                   {destination?.slice(8, 17)}...
+                </a>
+              ) : (
+                <a
+                  href={destination}
+                  target="_blank"
+                  rel="norefferer"
+                  className="bg-white flex items-center gap-2 text-black font-bold p-2 pl-4 pr-4 rounded-full opacity-70 hover:opacity-100 hover:shadow-md h-8"
+                >
+                  <BsArrowUpRightCircleFill />
+                  Undefined
                 </a>
               )}
               {postedBy?._id === JSON.parse(user)?.uid && (
@@ -149,11 +161,6 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
         to={`/user-profile/${postedBy?._id}`}
         className="flex gap-2 mt-2 items-center"
       >
-        {/* <img
-          className="w-8 h-8 rounded-full object-cover"
-          src={postedBy?.username[0]}
-          alt="user-profile"
-        /> */}
         <p className="nameInitial p-1" style={{ fontSize: "14px" }}>
           {postedBy?.username[0]}
         </p>
