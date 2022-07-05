@@ -28,8 +28,6 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
 
-  // console.log(auth?.currentUser?.providerData[0].uid);
-
   // const authId = auth?.currentUser?.providerData[0].uid;
 
   const handleLogout = async () => {
@@ -44,15 +42,9 @@ const UserProfile = () => {
   const settingPins = () => {
     if (text === "created") {
       const createdPinQuery = userCreatedPinsQuery(userId);
-
-      console.log(createdPinQuery);
-
       client.fetch(createdPinQuery).then((data) => setPins(data));
     } else if (text === "saved") {
       const savedPinQuery = userSavedPinsQuery(userId);
-
-      console.log(savedPinQuery);
-
       client.fetch(savedPinQuery).then((data) => setPins(data));
     }
   };
