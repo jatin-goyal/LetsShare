@@ -62,8 +62,6 @@ const PinDetail = ({ user }) => {
     fetchPinDetails();
   }, [pinId]);
 
-  console.log(pins?.length);
-
   if (!pinDetail) return <Spinner message="Loading Pin..." />;
 
   return (

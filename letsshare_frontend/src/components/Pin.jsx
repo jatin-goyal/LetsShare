@@ -29,32 +29,30 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
 
   fetching();
 
-  //   console.log(alreadySaved, saved);
+  // const savePin = (id) => {
+  //   if (!saved) {
+  //     setSavingPin(true);
 
-  const savePin = (id) => {
-    if (!saved) {
-      setSavingPin(true);
-
-      client
-        .patch(id)
-        .setIfMissing({ save: [] })
-        .insert("after", "save[-1]", [
-          {
-            _key: uuidv4(),
-            userId: user.uid,
-            postedBy: {
-              _type: "postedBy",
-              _ref: user.uid,
-            },
-          },
-        ])
-        .commit()
-        .then(() => {
-          fetching();
-          setSavingPin(false);
-        });
-    }
-  };
+  //     client
+  //       .patch(id)
+  //       .setIfMissing({ save: [] })
+  //       .insert("after", "save[-1]", [
+  //         {
+  //           _key: uuidv4(),
+  //           userId: user.uid,
+  //           postedBy: {
+  //             _type: "postedBy",
+  //             _ref: user.uid,
+  //           },
+  //         },
+  //       ])
+  //       .commit()
+  //       .then(() => {
+  //         fetching();
+  //         setSavingPin(false);
+  //       });
+  //   }
+  // };
 
   const deletePin = (id) => {
     client.delete(id).then(() => {
@@ -92,7 +90,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
                   <MdDownloadForOffline />
                 </a>
               </div>
-              {saved ? (
+              {/* {saved ? (
                 <button
                   onClick={(e) => e.stopPropagation()}
                   type="button"
@@ -117,7 +115,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
                 >
                   {savingPin ? "Saving" : "Save"}
                 </button>
-              )}
+              )} */}
             </div>
             <div className="flex justify-between items-center w-full gap-2">
               {!!destination ? (

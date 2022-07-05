@@ -1,10 +1,12 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { RiHomeFill } from "react-icons/ri";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
 
 import logo from "../assets/logo.png";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 const categories = [
   {
@@ -28,8 +30,19 @@ const categories = [
 ];
 
 const Sidebar = ({ user, setToggleSidebar }) => {
+  const navigate = useNavigate();
+
   const handleCloseSidebar = () => {
     if (setToggleSidebar) setToggleSidebar(false);
+  };
+
+  const handleLogout = async () => {
+    await signOut(auth)
+      .then(() => {
+        localStorage.clear();
+        navigate("/login");
+      })
+      .catch((err) => console.error(err.message));
   };
 
   const isActiveStyle =
@@ -85,14 +98,23 @@ const Sidebar = ({ user, setToggleSidebar }) => {
         </div>
       </div>
       {user && (
-        <Link
-          to={`user-profile/${user._id}`}
-          className="flex my-5 mb-3 gap-2 p-2 items-center bg-white rounded-lg shadow-lg mx-3 capitalize"
-          onClick={handleCloseSidebar}
-        >
-          <p>{user.username}</p>
-          <IoIosArrowForward />
-        </Link>
+        <div>
+          <Link
+            to={`user-profile/${user._id}`}
+            className="flex my-5 mb-3 gap-2 p-2 items-center bg-white rounded-lg shadow-md hover:shadow-lg mx-3 py-3 capitalize"
+            onClick={handleCloseSidebar}
+          >
+            <p>{user.username}</p>
+            <IoIosArrowForward />
+          </Link>
+          <Link
+            to={`user-profile/${user._id}`}
+            className="flex my-5 mb-3 gap-2 p-2 items-center text-red-500 bg-white rounded-lg hover:shadow-md mx-3 capitalize"
+            onClick={handleLogout}
+          >
+            <p>Sign Out</p>
+          </Link>
+        </div>
       )}
     </div>
   );
