@@ -5,11 +5,9 @@ import { IoIosArrowForward } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
 
 import logo from "../assets/logo.png";
-import { signInWithPopup, signOut } from "firebase/auth";
-import { auth, provider } from "../firebase";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 import { categories } from "../utils/data";
-import { client } from "../client";
-import { FcGoogle } from "react-icons/fc";
 
 const Sidebar = ({ user, setToggleSidebar }) => {
   const navigate = useNavigate();
@@ -18,29 +16,8 @@ const Sidebar = ({ user, setToggleSidebar }) => {
     if (setToggleSidebar) setToggleSidebar(false);
   };
 
-  const handleLogin = async () => {
-    await signInWithPopup(auth, provider)
-      .then((user) => {
-        localStorage.setItem(
-          "user",
-          JSON.stringify(auth.currentUser.providerData[0])
-        );
-
-        const { uid, displayName, photoURL } = auth.currentUser.providerData[0];
-        const doc = {
-          _id: uid,
-          _type: "user",
-          username: displayName,
-          image: photoURL,
-        };
-
-        client.createIfNotExists(doc).then(() => {
-          navigate("/", { replace: true });
-        });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  const handleLogin = () => {
+    navigate("/login");
 
     window.location.reload();
   };
@@ -135,11 +112,11 @@ const Sidebar = ({ user, setToggleSidebar }) => {
         </div>
       ) : (
         <button
-          className="bg-mainColor flex justify-center items-center p-3 rounded-lg cursor-pointer"
+          className="bg-mainColor flex justify-center items-center p-5 mb-5 rounded-lg cursor-pointer hover:shadow-lg"
           type="button"
           onClick={handleLogin}
         >
-          <FcGoogle className="mr-4" /> Sign in with Google
+          Sign In
         </button>
       )}
     </div>

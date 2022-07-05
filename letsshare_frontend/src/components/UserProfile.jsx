@@ -80,7 +80,7 @@ const UserProfile = () => {
             {user?.username}
           </h1>
           <div className="absolute top-0 right-0 z-1 p-2">
-            {userId === user._id && (
+            {auth.currentUser && (
               <button
                 className="bg-mainColor flex justify-center items-center p-3 rounded-full cursor-pointer hover:shadow-lg"
                 type="button"
