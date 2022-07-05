@@ -81,20 +81,18 @@ const Sidebar = ({ user, setToggleSidebar }) => {
             <RiHomeFill /> Home
           </NavLink>
 
-          <NavLink
-            to="/create-pin"
-            className={({ isActive }) =>
-              isActive ? isActiveStyle : isNotActiveStyle
-            }
-            onClick={handleCloseSidebar}
-          >
-            {user && (
-              <>
-                <IoMdAdd className="bg-black text-white " />
-                <span>Create Pin</span>
-              </>
-            )}
-          </NavLink>
+          {user && (
+            <NavLink
+              to="/create-pin"
+              className={({ isActive }) =>
+                isActive ? isActiveStyle : isNotActiveStyle
+              }
+              onClick={handleCloseSidebar}
+            >
+              <IoMdAdd className="bg-black text-white " />
+              <span>Create Pin</span>
+            </NavLink>
+          )}
 
           <h3 className="mt-2 px-5 text-base 2xl:text-xl">
             Discover categories
