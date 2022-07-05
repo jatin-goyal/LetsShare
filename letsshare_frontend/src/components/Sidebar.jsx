@@ -5,15 +5,44 @@ import { IoIosArrowForward } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
 
 import logo from "../assets/logo.png";
-import { signOut } from "firebase/auth";
-import { auth } from "../firebase";
+import { signInWithPopup, signOut } from "firebase/auth";
+import { auth, provider } from "../firebase";
 import { categories } from "../utils/data";
+import { client } from "../client";
+import { FcGoogle } from "react-icons/fc";
 
 const Sidebar = ({ user, setToggleSidebar }) => {
   const navigate = useNavigate();
 
   const handleCloseSidebar = () => {
     if (setToggleSidebar) setToggleSidebar(false);
+  };
+
+  const handleLogin = async () => {
+    await signInWithPopup(auth, provider)
+      .then((user) => {
+        localStorage.setItem(
+          "user",
+          JSON.stringify(auth.currentUser.providerData[0])
+        );
+
+        const { uid, displayName, photoURL } = auth.currentUser.providerData[0];
+        const doc = {
+          _id: uid,
+          _type: "user",
+          username: displayName,
+          image: photoURL,
+        };
+
+        client.createIfNotExists(doc).then(() => {
+          navigate("/", { replace: true });
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+
+    window.location.reload();
   };
 
   const handleLogout = async () => {
@@ -51,6 +80,7 @@ const Sidebar = ({ user, setToggleSidebar }) => {
           >
             <RiHomeFill /> Home
           </NavLink>
+
           <NavLink
             to="/create-pin"
             className={({ isActive }) =>
@@ -58,8 +88,14 @@ const Sidebar = ({ user, setToggleSidebar }) => {
             }
             onClick={handleCloseSidebar}
           >
-            <IoMdAdd className="bg-black text-white " /> Create Pin
+            {user && (
+              <>
+                <IoMdAdd className="bg-black text-white " />
+                <span>Create Pin</span>
+              </>
+            )}
           </NavLink>
+
           <h3 className="mt-2 px-5 text-base 2xl:text-xl">
             Discover categories
           </h3>
@@ -81,7 +117,7 @@ const Sidebar = ({ user, setToggleSidebar }) => {
           ))}
         </div>
       </div>
-      {user && (
+      {user ? (
         <div>
           <Link
             to={`user-profile/${user._id}`}
@@ -99,6 +135,14 @@ const Sidebar = ({ user, setToggleSidebar }) => {
             <p>Sign Out</p>
           </Link>
         </div>
+      ) : (
+        <button
+          className="bg-mainColor flex justify-center items-center p-3 rounded-lg cursor-pointer"
+          type="button"
+          onClick={handleLogin}
+        >
+          <FcGoogle className="mr-4" /> Sign in with Google
+        </button>
       )}
     </div>
   );
