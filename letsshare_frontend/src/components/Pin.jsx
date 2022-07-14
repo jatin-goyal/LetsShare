@@ -8,51 +8,18 @@ import { BsArrowUpRightCircleFill } from "react-icons/bs";
 import { urlFor, client } from "../client";
 import { fetchUser } from "../utils/fetchUser";
 
-const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
+const Pin = ({ pin: { postedBy, image, _id, destination, title } }) => {
   const [postHovered, setPostHovered] = useState(false);
-  const [savingPin, setSavingPin] = useState(false);
-  const [disabled, setDisabled] = useState(false);
 
   const navigate = useNavigate();
 
-  // console.log(image);
-
   let user;
-  let alreadySaved;
-  let saved;
 
   const fetching = () => {
     user = fetchUser();
-    alreadySaved = save?.filter((item) => item?.postedBy?._id === user?.uid);
-    saved = !!alreadySaved?.length;
   };
 
   fetching();
-
-  // const savePin = (id) => {
-  //   if (!saved) {
-  //     setSavingPin(true);
-
-  //     client
-  //       .patch(id)
-  //       .setIfMissing({ save: [] })
-  //       .insert("after", "save[-1]", [
-  //         {
-  //           _key: uuidv4(),
-  //           userId: user.uid,
-  //           postedBy: {
-  //             _type: "postedBy",
-  //             _ref: user.uid,
-  //           },
-  //         },
-  //       ])
-  //       .commit()
-  //       .then(() => {
-  //         fetching();
-  //         setSavingPin(false);
-  //       });
-  //   }
-  // };
 
   const deletePin = (id) => {
     client.delete(id).then(() => {
@@ -90,32 +57,6 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
                   <MdDownloadForOffline />
                 </a>
               </div>
-              {/* {saved ? (
-                <button
-                  onClick={(e) => e.stopPropagation()}
-                  type="button"
-                  className="bg-red-500 opacity-70 hover:opacity-100 text-white font-bold px-4 py-1 tect-base rounded-3xl hover:shadow-md outline-none"
-                  style={{ fontSize: "13px" }}
-                >
-                  {save?.length} Saved
-                </button>
-              ) : (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    savePin(_id);
-                    window.location.reload();
-                    setDisabled(true);
-                    fetching();
-                  }}
-                  disabled={disabled}
-                  type="button"
-                  className="bg-red-500 opacity-70 hover:opacity-100 text-white font-bold px-4 py-1 tect-base rounded-3xl hover:shadow-md outline-none"
-                  style={{ fontSize: "13px" }}
-                >
-                  {savingPin ? "Saving" : "Save"}
-                </button>
-              )} */}
             </div>
             <div className="flex justify-between items-center w-full gap-2">
               {!!destination ? (
@@ -157,14 +98,18 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
           </div>
         )}
       </div>
+      {/* <p style={{ fontWeight: "800", fontSize: "20px" }}>{title}</p> */}
       <Link
         to={`/user-profile/${postedBy?._id}`}
-        className="flex gap-2 mt-2 items-center"
+        className="flex gap-2 items-center"
+        // style={{ borderBottom: "1px solid gray" }}
       >
-        <p className="nameInitial p-1" style={{ fontSize: "14px" }}>
+        <p className="nameInitial p-1 mt-2" style={{ fontSize: "12px" }}>
           {postedBy?.username[0]}
         </p>
-        <p className="font-semibold capitalize">{postedBy?.username}</p>
+        <p className="font-semibold capitalize text-gray text-md ">
+          {postedBy?.username}
+        </p>
       </Link>
     </div>
   );
