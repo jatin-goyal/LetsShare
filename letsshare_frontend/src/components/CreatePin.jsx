@@ -199,6 +199,7 @@ const CreatePin = ({ user }) => {
               >
                 Save Pin
               </button>
+              <span>(may take 5 minutes to upload)</span>
 
               {fields && (
                 <p className="text-red-500 mb-5 text-xl transition-all duration-500 ease-in-out">

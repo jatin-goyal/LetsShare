@@ -156,7 +156,7 @@ const PinDetail = ({ user }) => {
             <input
               className=" flex-1 border-gray-100 outline-none border-2 p-2 rounded-2xl focus:border-gray-300"
               type="text"
-              placeholder="Add a comment"
+              placeholder="Add a comment (may take 5 minutes to display)"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
             />
